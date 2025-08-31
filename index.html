@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenkai Temple - Find Inner Peace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #8b9a46;
+            --accent-color: #d4af37;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(44, 85, 48, 0.4), rgba(139, 154, 70, 0.4)),
+                url('./Images/MahamevnawaJapanHeroImage.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+            /* Changed from fixed to prevent overlap */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            scroll-margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            scroll-margin-top: 80px;
+            /* Account for fixed navbar */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        /* About Section */
+        .about {
+
+            position: relative;
+            z-index: 10;
+            /* Ensure it stays above hero */
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .about-text h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px var(--shadow);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Schedule Section */
+
+        .schedule {
+            background: var(--bg-light);
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .schedule-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .schedule-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow);
+        }
+
+        .schedule-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .schedule-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Programs Section */
+        .programs {
+            background: var(--bg-light);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .program-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .program-content {
+            padding: 2rem;
+        }
+
+        .program-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: var(--white);
+        }
+
+        .gallery-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.2);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .gallery-overlay p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* Gallery item fade animation */
+        .gallery-item.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        /* Gallery lightbox (modal) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-color);
+        }
+
+        /* Contact Section */
+
+        .contact {
+            background: var(--bg-light);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #e8f5e8, #d4edda);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Mahamevnawa Osaka</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#schedule">Programs</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find Your Inner Peace</h1>
+            <p>Experience tranquility and enlightenment at our monastery nestled in the mountains of Osaka</p>
+            <a href="#about" class="cta-button">Begin Your Journey</a>
+        </div>
+        <div class="scroll-indicator">⬇</div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Osaka Monastery</h2>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h3>A Sacred Place of Learning and Practicing</h3>
+                    <p>Mahamevnawa Buddhist Monastery in Osaka is a branch of the Mahamevnawa Buddhist Monastery
+                        organization, which originated in Sri Lanka. The monastery follows the Theravada Buddhist
+                        tradition and was established to serve the growing Sri Lankan Buddhist community in Japan,
+                        particularly in the Osaka area.
+                    </p>
+
+                    <p>The Mahamevnawa movement was founded by Ven. Kiribathgoda Gnanananda Thero in Sri Lanka in the
+                        1990s, with the aim of teaching pure Buddhist doctrine and meditation practices. The
+                        organization has since expanded internationally, establishing branches in various countries
+                        including Japan.</p>
+
+                    <p>It provides a place where expatriate Sri Lankans can maintain their religious practices and
+                        cultural connections while living in Japan.</p>
+                </div>
+                <div class="about-image fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (22).jpg" alt="Temple Interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="section schedule" id="schedule">
+        <div class="container">
+            <h2 class="section-title fade-in">Programs Schedule</h2>
+            <div class="schedule-grid">
+                <div class="schedule-card fade-in">
+                    <div class="schedule-icon">🧘‍♂️</div>
+                    <h3>Monthly Meditation Program</h3>
+                    <p><strong>8:00 AM - 4:00 PM</strong></p>
+                    <p>Begin each day with silent sitting meditation (zazen) as the sun rises over the mountains.</p>
+                </div>
+                <div class="schedule-card fade-in">
+                    <div class="schedule-icon">🎦</div>
+                    <h3>Dharma Study (Online)</h3>
+                    <p><strong>7:00 PM - 9:00 PM</strong></p>
+                    <p>Study Buddhist texts and teachings with our experienced monks and fellow practitioners.</p>
+                </div>
+                <div class="schedule-card fade-in">
+                    <div class="schedule-icon">🙏</div>
+                    <h3>Daily Evening Chanting</h3>
+                    <p><strong>6:00 PM - 7:30 PM</strong></p>
+                    <p>Evening meditation session followed by walking meditation in our beautiful gardens.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title fade-in">Photo Gallery</h2>
+            <p class="gallery-subtitle fade-in">Explore the beauty and serenity of our sacred spaces</p>
+
+
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (1).jpg" alt="Mahamevnawa Osaka 1">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (2).jpg" alt="Mahamevnawa Osaka 2">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (3).jpg" alt="Mahamevnawa Osaka 3">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (4).jpg" alt="Mahamevnawa Osaka 4">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (5).jpg" alt="Mahamevnawa Osaka 5">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (7).jpg" alt="Mahamevnawa Osaka 6">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (8).jpg" alt="Mahamevnawa Osaka 7">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (9).jpg" alt="Mahamevnawa Osaka 8">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (10).jpg" alt="Mahamevnawa Osaka 9">
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (11).jpg" alt="Mahamevnawa Osaka 10">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (12).jpg" alt="Mahamevnawa Osaka 11">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (13).jpg" alt="Mahamevnawa Osaka 12">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (14).jpg" alt="Mahamevnawa Osaka 13">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (16).jpg" alt="Mahamevnawa Osaka 14">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (17).jpg" alt="Mahamevnawa Osaka 15">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (18).jpg" alt="Mahamevnawa Osaka 16">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (19).jpg" alt="Mahamevnawa Osaka 17">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (21).jpg" alt="Mahamevnawa Osaka 18">
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (20).jpg" alt="Mahamevnawa Osaka 19">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (15).jpg" alt="Mahamevnawa Osaka 20">
+                </div>
+
+                <div class="gallery-item fade-in">
+                    <img src="./Images/Mahamevnawa Osaka Japan (6).jpg" alt="Mahamevnawa Osaka 21">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">Visit Us</h2>
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h3 style="color: var(--primary-color); margin-bottom: 2rem;">Get in Touch</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Address</strong><br>
+                            Mahamevnawa Buddhist Monastery<br>
+                            1-4-29 Miyamachi, Tondabayashi City, Osaka
+
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Phone</strong><br>
+                            +81 80-4852-7239
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            mahamevnawaosaka@gmail.com
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div>
+                            <strong>Visiting Hours</strong><br>
+                            Daily: 6:00 AM - 8:00 PM
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container fade-in">
+                    <div class="map-placeholder">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3287.4724016310574!2d135.6045062!3d34.516257599999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600129003e1f619b%3A0x9dbc04dcbd61f528!2z4La44LeE4La44LeZ4LeA4LeK4Lax4LeP4LeAIOC2t-C3j-C3gOC2seC3jyDgtoXgt4PgtrTgt5Tgt4AgLSDgtpXgt4Pgtprgt48!5e0!3m2!1sen!2slk!4v1756624411069!5m2!1sen!2slk"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Mahamevnawa Osaka. All rights reserved.</p>
+            <p>May all beings find peace and enlightenment</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links with proper offset
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - (target.id === 'home' ? 0 : navbarHeight);
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.schedule-card, .program-card').forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Parallax effect for hero section - REMOVED to prevent overlap issues
+        // window.addEventListener('scroll', function() {
+        //     const scrolled = window.pageYOffset;
+        //     const hero = document.querySelector('.hero');
+        //     if (hero) {
+        //         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        //     }
+        // });
+
+        // Initialize gallery - show all items
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.classList.add('visible');
+        });
+
+        // Gallery lightbox functionality
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = `
+            <div class="lightbox-content">
+                <button class="lightbox-close">&times;</button>
+                <img src="" alt="">
+            </div>
+        `;
+        document.body.appendChild(lightbox);
+
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxClose = lightbox.querySelector('.lightbox-close');
+
+        // Add click event to gallery items for lightbox
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const img = this.querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close lightbox
+        lightboxClose.addEventListener('click', function () {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', function () {
+                document.querySelector('#about').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
